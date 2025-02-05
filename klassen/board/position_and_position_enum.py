@@ -5,7 +5,7 @@ class c_position():
     rang = None
     linie = None
 
-    def __init__(self, rang, linie):
+    def __init__(self, linie, rang):
         if (not (isinstance(rang, e_rang)) or not(isinstance(linie, e_linie))):
             raise TypeError("Ungültige Position eingegeben")
         
@@ -13,27 +13,35 @@ class c_position():
         self.linie = linie
         
 
-# Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der x-Achse auch Rang genannt (Zahlen 1 bis 8)
+# Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der y-Achse auch Rang genannt (Zahlen 1 bis 8)
 class e_rang(Enum):
-    r1 = 1
-    r2 = 2
-    r3 = 3
-    r4 = 4
-    r5 = 5
-    r6 = 6
-    r7 = 7
-    r8 = 8
+    r_1 = 0
+    r_2 = 1
+    r_3 = 2
+    r_4 = 3
+    r_5 = 4
+    r_6 = 5
+    r_7 = 6
+    r_8 = 7
 
-# Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der y-Achse auch Linie genannt (Zahlen A bis H)
+class e_linie_value(Enum):
+    A = 0 
+    B = 1
+    C = 2
+    D = 3
+    E = 4
+    F = 5
+    G = 6
+    H = 7
+
+# Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der x-Achse auch Linie genannt (Zahlen A bis H)
 class e_linie(Enum):
-    l_a = "A"
-    l_b = "B"
-    l_c = "C"
-    l_d = "D"
-    l_e = "E"
-    l_f = "F"
-    l_g = "G"
-    l_h = "H"
+    l_a = e_linie_value.A
+    l_b = e_linie_value.B
+    l_c = e_linie_value.C
+    l_d = e_linie_value.D
+    l_e = e_linie_value.E
+    l_f = e_linie_value.F
+    l_g = e_linie_value.G
+    l_h = e_linie_value.H
 
-    
-    

@@ -6,7 +6,7 @@ from board.figures.enums.chess_color_enum import e_chess_color
 from board.figures.enums.chess_typ_enum import e_chess_typ
 
 
-# Eine abstracte Klasse mit abstracten Methoden und Variablen
+# Eine abstracte Klasse mit abstracten Methoden
 # Die Klasse dient als Vaterklasse für alle Schachfiguren
 
 class c_chess_piece(ABC):
@@ -16,16 +16,13 @@ class c_chess_piece(ABC):
     #-------------------------------------------------------------------
 
     # Beinhaltet die Farbe der Schachfigur
-    _farbe = None
+    # _farbe
 
     # Beinhaltet den Typ der Figur z.B. Dame
-    _typ = None
-
-    # Beinhaltet den Character-Zeichen der Figur z.B. 
-    _char = None
+    # _typ
 
     # Beinhaltet, ob die Figur im Spiel ist
-    _captured = None
+    # _captured
 
     # _position ist auch eine Variable davon
 
@@ -33,7 +30,7 @@ class c_chess_piece(ABC):
     # Konstruktor
     #-------------------------------------------------------------------
 
-    def __init__(self, position):
+    def __init__(self, position, farbe=None, typ=None,captured=None):
         #---------------------------------------------------------------
         # Variablen Typen prüfen
         #---------------------------------------------------------------
@@ -41,31 +38,27 @@ class c_chess_piece(ABC):
         if (not(isinstance(position, c_position))):
             raise TypeError("Ungültige Position eingegeben")
         
-        if (_farbe == None):
+        if (farbe == None): # type: ignore 
             raise NameError("Unterklasse muss Farbe definieren")
         
-        if (_typ == None):
+        if (typ == None): # type: ignore 
             raise NameError("Unterklasse muss Typ definieren")
         
-        if (_char == None):
-            raise NameError("Unterklasse muss Char definieren")
-        
-        if (_captured == None):
+        if (captured == None): # type: ignore
             raise NameError("Unterklasse muss Capture definieren")
         
-        if (not(isinstance(_farbe, e_chess_color))):
+        if (not(isinstance(farbe, e_chess_color))): # type: ignore 
             raise TypeError("Ungültige Farbe eingegeben")
         
-        if (not(isinstance(_typ, e_chess_typ))):
+        if (not(isinstance(typ, e_chess_typ))): # type: ignore 
             raise TypeError("Ungültiger Typ eingegeben")
         
-        if (not(isinstance(_char, e_chess_char))):
-            raise TypeError("Ungültiger Char eingegeben")
-        
-        if (not(isinstance(_captured, e_chess_captured))):
+        if (not(isinstance(captured, e_chess_captured))): # type: ignore 
             raise TypeError("Ungültiger Capture eingegeben")
         
-
+        self._farbe = farbe
+        self._typ = typ
+        self._captured
 
         self._position = position
 
@@ -91,12 +84,8 @@ class c_chess_piece(ABC):
     def get_typ(self):
         return self._typ
     
-    def get_char(self):
-        return self._char
     
 
-
-
     @abstractmethod
-    def laufen(self):
+    def laufen_possible(self):
         pass
