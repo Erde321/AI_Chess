@@ -28,7 +28,7 @@
 25. Nd6+ Bxd6 
 26. cxd6 Kf8 
 27. Qf1+ Kg7 
-28.Qf4 h4 
+28. Qf4 h4 
 29. Rhf1 Nf6 
 30. Qxf6+ Kg8 
 31. Qf8+ Kh7 

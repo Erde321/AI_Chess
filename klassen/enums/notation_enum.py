@@ -8,3 +8,5 @@ class e_notation(Enum):
     rook = "R"
     queen = "Q"
     king = "K"
+    roche = "O-O"
+    long_roche = "O-O-O"
