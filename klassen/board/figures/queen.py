@@ -3,6 +3,7 @@ from enums.chess_captured_enum import e_chess_captured
 from enums.chess_color_enum import e_chess_color
 from enums.chess_char_enum import e_chess_char
 from chess_piece import c_chess_piece
+from board.position_and_position_enum import c_position
 
 
 class c_queen(c_chess_piece):
@@ -30,13 +31,13 @@ class c_queen(c_chess_piece):
     #-------------------------------------------------------------------
     # Klassenübergreifende Variable
     #-------------------------------------------------------------------
-    -typ = e_chess_typ.queen
+    _typ = e_chess_typ.queen
 
 
     #-------------------------------------------------------------------
     # Konstruktor
     #-------------------------------------------------------------------
-    def __init__(self, position, farbe):
+    def __init__(self, position: c_position, farbe: e_chess_color):
 
         self._captured = e_chess_captured.no
 
@@ -47,18 +48,18 @@ class c_queen(c_chess_piece):
         elif self._farbe == e_chess_color.black:
             self._char = e_chess_char.black_queen
         else:
-            raise TypeError("Ungültiges Character eingegeben")
+            raise TypeError("Ungültige Farbe eingegeben")
 
     #-------------------------------------------------------------------
     # Set und Get Funktionen
     #-------------------------------------------------------------------
-    def get_char(self):
+    def get_char(self) -> e_chess_char:
         return self._char 
         
 
     #-------------------------------------------------------------------
     # Ist der Zug möglich Funktion
     #-------------------------------------------------------------------
-    def laufen_possible(self):
+    def laufen_possible(self) -> bool:
         # TODO
         return 0

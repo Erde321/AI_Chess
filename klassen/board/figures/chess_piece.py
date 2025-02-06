@@ -30,31 +30,7 @@ class c_chess_piece(ABC):
     # Konstruktor
     #-------------------------------------------------------------------
 
-    def __init__(self, position, farbe=None, typ=None,captured=None):
-        #---------------------------------------------------------------
-        # Variablen Typen prüfen
-        #---------------------------------------------------------------
-
-        if (not(isinstance(position, c_position))):
-            raise TypeError("Ungültige Position eingegeben")
-        
-        if (farbe == None): # type: ignore 
-            raise NameError("Unterklasse muss Farbe definieren")
-        
-        if (typ == None): # type: ignore 
-            raise NameError("Unterklasse muss Typ definieren")
-        
-        if (captured == None): # type: ignore
-            raise NameError("Unterklasse muss Capture definieren")
-        
-        if (not(isinstance(farbe, e_chess_color))): # type: ignore 
-            raise TypeError("Ungültige Farbe eingegeben")
-        
-        if (not(isinstance(typ, e_chess_typ))): # type: ignore 
-            raise TypeError("Ungültiger Typ eingegeben")
-        
-        if (not(isinstance(captured, e_chess_captured))): # type: ignore 
-            raise TypeError("Ungültiger Capture eingegeben")
+    def __init__(self, position: c_position, farbe: e_chess_color, typ: e_chess_typ, captured: e_chess_captured):
         
         self._farbe = farbe
         self._typ = typ
@@ -66,26 +42,29 @@ class c_chess_piece(ABC):
     # Set und Get Funktionen
     #-------------------------------------------------------------------
 
-    def set_captured(self, chess_captured_enum):
-        self._captured = chess_captured_enum
+    def set_captured(self, captured: e_chess_captured):
+        self._captured = captured
 
-    def get_captured(self):
+    def get_captured(self) -> e_chess_captured:
         return self._captured
     
-    def set_position(self, position_enums):
-        self._position = position_enums
+    def set_position(self, position: c_position):
+        self._position = position
 
-    def get_position(self):
+    def get_position(self) -> c_position:
         return self._position
     
-    def get_farbe(self):
+    def get_farbe(self) -> e_chess_color:
         return self._farbe
     
-    def get_typ(self):
+    def get_typ(self) -> e_chess_typ:
         return self._typ
     
+    @abstractmethod
+    def get_char(self) -> e_chess_char:
+        pass
     
 
     @abstractmethod
-    def laufen_possible(self):
+    def laufen_possible(self) -> bool:
         pass

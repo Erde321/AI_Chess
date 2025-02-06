@@ -1,20 +1,8 @@
 from enum import Enum
-
-class c_position():
-
-    rang = None
-    linie = None
-
-    def __init__(self, linie, rang):
-        if (not (isinstance(rang, e_rang)) or not(isinstance(linie, e_linie))):
-            raise TypeError("Ungültige Position eingegeben")
-        
-        self.rang = rang
-        self.linie = linie
         
 
 # Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der y-Achse auch Rang genannt (Zahlen 1 bis 8)
-class e_rang(Enum):
+class e_zeile(Enum):
     r_1 = 0
     r_2 = 1
     r_3 = 2
@@ -24,24 +12,33 @@ class e_rang(Enum):
     r_7 = 6
     r_8 = 7
 
-class e_linie_value(Enum):
-    A = 0 
-    B = 1
-    C = 2
-    D = 3
-    E = 4
-    F = 5
-    G = 6
-    H = 7
+class e_spalte_value(Enum):
+    a = 0 
+    b = 1
+    c = 2
+    d = 3
+    e = 4
+    f = 5
+    g = 6
+    h = 7
 
 # Diese Klasse dient als Enumeration der Positionen einer Schachfigur in der x-Achse auch Linie genannt (Zahlen A bis H)
-class e_linie(Enum):
-    l_a = e_linie_value.A
-    l_b = e_linie_value.B
-    l_c = e_linie_value.C
-    l_d = e_linie_value.D
-    l_e = e_linie_value.E
-    l_f = e_linie_value.F
-    l_g = e_linie_value.G
-    l_h = e_linie_value.H
+class e_spalte(Enum):
+    l_a = e_spalte_value.a
+    l_b = e_spalte_value.b
+    l_c = e_spalte_value.c
+    l_d = e_spalte_value.d
+    l_e = e_spalte_value.e
+    l_f = e_spalte_value.f
+    l_g = e_spalte_value.g
+    l_h = e_spalte_value.h
 
+class c_position():
+
+    spalte = None
+    zeile = None
+
+    def __init__(self, spalte: e_spalte, zeile: e_zeile):
+        
+        self.zeile = zeile
+        self.spalte = spalte

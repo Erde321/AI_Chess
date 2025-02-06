@@ -1,0 +1,52 @@
+[Player1]
+[Player2]
+
+
+
+1. b4 e5 
+2. b5 Qh4 
+3. g3 Qh5 
+4. Nf3 d5 
+5. Bb2 e4 
+6. Nd4 Bc5 
+7. f4 Be7 
+8. e3 Qxd1+ 
+9. Kxd1 Bd7 
+10. Nc3 Nc6 
+11. a4 Bg4+ 
+12. Be2 Bxe2+ 
+13. Kxe2 Nxd4+ 
+14. exd4 e3 
+15. Kxe3 Nf6 
+16. Rhf1 O-O 
+17. f5 Bb4 
+18. Rf4 Bxc3 
+19. Bxc3 Rfd8 
+20. Bb4 Rf8
+21. Bxf8 Kxf8 
+22. c3 Re8+ 
+23. Kf2 h5 
+24. d3 c5 
+25. bxc6 bxc6 
+26. Re1 Rxe1 
+27. Kxe1 a6 
+28. Rf3 Ne8 
+29. Re3 Nd6 
+30. Rf3 Nc8 
+31. h3 c5 
+32. dxc5 g6 
+33. fxg6 h4
+34. gxh4 Ne7 
+35. h5 f5 
+36. h6 Nxg6 
+37. Rxf5+ Ke7 
+38. Rxd5 Nf4 
+39. Rd4 Ke6 
+40. Re4+ Kd5 
+41. Rxf4 Kxc5 
+42. h7 Kd5 
+43. h8=Q Kc5 
+44. Qh5+ Kc6 
+45. Rf6+ Kc7 
+46. Qh7+ Kb8 
+47. Rf8# 1-0
