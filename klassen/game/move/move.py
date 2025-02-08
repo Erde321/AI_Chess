@@ -1,12 +1,11 @@
-from enum import Enum
-from klassen.enums.notation_enum import e_notation
-from klassen.enums.files_enum import e_files
-from klassen.enums.ranks_enum import e_ranks
-from klassen.move.enums.move_type_enum import e_move_type
+from klassen.game.enums.notation_enum import e_notation
+from klassen.game.enums.files_enum import e_files
+from klassen.game.enums.ranks_enum import e_ranks
+from klassen.game.move.enums.move_type_enum import e_move_type
 
 
 # Diese Klasse dient als Enumeration der Farben einer Schachfigur
-class e_move(Enum):
+class c_move():
 
     _move = None
     _move_type = None

@@ -5,13 +5,13 @@ from pieces.rook import c_rook
 from pieces.queen import c_queen
 from pieces.king import c_king
 from pieces.chess_piece import c_chess_piece
-from klassen.board.pieces.enums.position_start_const_enum import position_start_const
+from klassen.game.board.pieces.enums.position_start_const_enum import position_start_const
 from board.pieces.enums.chess_color_enum import e_chess_color
 from board.pieces.enums.chess_captured_enum import e_chess_captured
 from board.pieces.enums.chess_pieces_enum import e_chess_piece
 from board.pieces.enums.chess_char_enum import e_chess_char
 from board.position_and_position_enum import c_position
-from klassen.move.move_enum import e_move
+from klassen.game.move.move import c_move
 
 
 class board():

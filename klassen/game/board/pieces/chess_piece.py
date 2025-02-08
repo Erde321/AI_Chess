@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from board.position_and_position_enum import c_position
-from board.figures.enums.chess_captured_enum import e_chess_captured
-from board.figures.enums.chess_char_enum import e_chess_char
-from board.figures.enums.chess_color_enum import e_chess_color
-from board.figures.enums.chess_typ_enum import e_chess_typ
+from board.pieces.enums.chess_captured_enum import e_chess_captured
+from board.pieces.enums.chess_char_enum import e_chess_char
+from board.pieces.enums.chess_color_enum import e_chess_color
+from board.pieces.enums.chess_typ_enum import e_chess_typ
 
 
 # Eine abstracte Klasse mit abstracten Methoden
