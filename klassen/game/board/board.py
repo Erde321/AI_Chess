@@ -12,9 +12,19 @@ from board.pieces.enums.chess_pieces_enum import e_chess_piece
 from board.pieces.enums.chess_char_enum import e_chess_char
 from board.position_and_position_enum import c_position
 from klassen.game.move.move import c_move
+from klassen.game.move.enums.move_type_enum import e_move_type
 
 
-class board():
+class c_board():
+    #-------------------------------------------------------------------
+    # Beschreibung
+    #-------------------------------------------------------------------
+    # Instanziiert eine Liste aus Leerzeichen als Board und jede Figur in jeder Farbe, setzt aber keine Figuren auf das Board.
+    # Verschiebt eine Figur auf dem Board und die Position der Figur mit **change_piece_position()**, wenn eine Figur geschlagen wird, wird _captured gesetzt
+    # Setzt das komplette Board zurück mit **reset_board()**, setzt aber keine Figuren auf das Board
+    # Setzt die Position aller Figuren zurück mit **reset_pieces()**, ändert aber Board nicht
+    # Setzt alle Figuren mit ihrer aktuellen Position auf das Board mit **set_all_pieces_on_board()**
+    # Findet eine Figur mit einer Position und return(t) das Vaterklasseobjekt der Figur mit **find_piece_with_position()**
 
     #-------------------------------------------------------------------
     # Variablen
@@ -33,16 +43,43 @@ class board():
     # w_queen                                                                   # w_king
     # b_queen                                                                   # b_king
 
+    # Board
+    # _board
+
+    #-------------------------------------------------------------------
+    # Funktionen
+    #-------------------------------------------------------------------
+    # Public
+    #-------------------------------------------------------------------
+    # reset_pieces()
+    # set_all_pieces_on_board()
+    # reset_board()
+    # find_piece_with_position()
+    # change_piece_position()
+    #-------------------------------------------------------------------
+
     #-------------------------------------------------------------------
     # Get und Set Funktionen
     #-------------------------------------------------------------------
+
+    #-------------------------------------------------------------------
+    # Board
+
+    # get_board()
+
+    #-------------------------------------------------------------------
+    # Figuren
 
     # get_char()        
     # get_captured()    # set_captured()
     # get_position()    # set_position()
     # get_farbe()
     # get_typ()
-    #------------------------------------------------------------------------
+    # Nur Bauern: get_promote() # set_promote()
+    #-------------------------------------------------------------------
+    # Private
+    #-------------------------------------------------------------------
+    # __set_piece_on_board()
 
     #Instanziiert alle Figuren und das Board
     def __init__(self):
@@ -181,7 +218,7 @@ class board():
         self.b_king.set_captured(e_chess_captured.no)
 
     # Setzt eine Figur auf das Board
-    def set_piece_on_board(self, position: c_position, char: str):
+    def __set_piece_on_board(self, position: c_position, char: str):
 
         if ((len(char)!=1)):
             raise TypeError("Ungültiger Character eingegeben")
@@ -192,59 +229,56 @@ class board():
     def set_all_pieces_on_board(self):
 
         # Set pawns on board
-        self.set_piece_on_board(self.w_pawn1.get_position(), self.w_pawn1.get_char())
-        self.set_piece_on_board(self.w_pawn2.get_position(), self.w_pawn2.get_char())
-        self.set_piece_on_board(self.w_pawn3.get_position(), self.w_pawn3.get_char())
-        self.set_piece_on_board(self.w_pawn4.get_position(), self.w_pawn4.get_char())
-        self.set_piece_on_board(self.w_pawn5.get_position(), self.w_pawn5.get_char())
-        self.set_piece_on_board(self.w_pawn6.get_position(), self.w_pawn6.get_char())
-        self.set_piece_on_board(self.w_pawn7.get_position(), self.w_pawn7.get_char())
-        self.set_piece_on_board(self.w_pawn8.get_position(), self.w_pawn8.get_char())
+        self.__set_piece_on_board(self.w_pawn1.get_position(), self.w_pawn1.get_char())
+        self.__set_piece_on_board(self.w_pawn2.get_position(), self.w_pawn2.get_char())
+        self.__set_piece_on_board(self.w_pawn3.get_position(), self.w_pawn3.get_char())
+        self.__set_piece_on_board(self.w_pawn4.get_position(), self.w_pawn4.get_char())
+        self.__set_piece_on_board(self.w_pawn5.get_position(), self.w_pawn5.get_char())
+        self.__set_piece_on_board(self.w_pawn6.get_position(), self.w_pawn6.get_char())
+        self.__set_piece_on_board(self.w_pawn7.get_position(), self.w_pawn7.get_char())
+        self.__set_piece_on_board(self.w_pawn8.get_position(), self.w_pawn8.get_char())
 
-        self.set_piece_on_board(self.b_pawn1.get_position(), self.b_pawn1.get_char())
-        self.set_piece_on_board(self.b_pawn2.get_position(), self.b_pawn2.get_char())
-        self.set_piece_on_board(self.b_pawn3.get_position(), self.b_pawn3.get_char())
-        self.set_piece_on_board(self.b_pawn4.get_position(), self.b_pawn4.get_char())
-        self.set_piece_on_board(self.b_pawn5.get_position(), self.b_pawn5.get_char())
-        self.set_piece_on_board(self.b_pawn6.get_position(), self.b_pawn6.get_char())
-        self.set_piece_on_board(self.b_pawn7.get_position(), self.b_pawn7.get_char())
-        self.set_piece_on_board(self.b_pawn8.get_position(), self.b_pawn8.get_char())
+        self.__set_piece_on_board(self.b_pawn1.get_position(), self.b_pawn1.get_char())
+        self.__set_piece_on_board(self.b_pawn2.get_position(), self.b_pawn2.get_char())
+        self.__set_piece_on_board(self.b_pawn3.get_position(), self.b_pawn3.get_char())
+        self.__set_piece_on_board(self.b_pawn4.get_position(), self.b_pawn4.get_char())
+        self.__set_piece_on_board(self.b_pawn5.get_position(), self.b_pawn5.get_char())
+        self.__set_piece_on_board(self.b_pawn6.get_position(), self.b_pawn6.get_char())
+        self.__set_piece_on_board(self.b_pawn7.get_position(), self.b_pawn7.get_char())
+        self.__set_piece_on_board(self.b_pawn8.get_position(), self.b_pawn8.get_char())
 
         # Set knights on board
-        self.set_piece_on_board(self.w_knight1.get_position(), self.w_knight1.get_char())
-        self.set_piece_on_board(self.w_knight2.get_position(), self.w_knight2.get_char())
+        self.__set_piece_on_board(self.w_knight1.get_position(), self.w_knight1.get_char())
+        self.__set_piece_on_board(self.w_knight2.get_position(), self.w_knight2.get_char())
 
-        self.set_piece_on_board(self.b_knight1.get_position(), self.b_knight1.get_char())
-        self.set_piece_on_board(self.b_knight2.get_position(), self.b_knight2.get_char())
+        self.__set_piece_on_board(self.b_knight1.get_position(), self.b_knight1.get_char())
+        self.__set_piece_on_board(self.b_knight2.get_position(), self.b_knight2.get_char())
 
         # Set bishops on board
-        self.set_piece_on_board(self.w_bishop1.get_position(), self.w_bishop1.get_char())
-        self.set_piece_on_board(self.w_bishop2.get_position(), self.w_bishop2.get_char())
-        self.set_piece_on_board(self.b_bishop1.get_position(), self.b_bishop1.get_char())
-        self.set_piece_on_board(self.b_bishop2.get_position(), self.b_bishop2.get_char())
+        self.__set_piece_on_board(self.w_bishop1.get_position(), self.w_bishop1.get_char())
+        self.__set_piece_on_board(self.w_bishop2.get_position(), self.w_bishop2.get_char())
+        self.__set_piece_on_board(self.b_bishop1.get_position(), self.b_bishop1.get_char())
+        self.__set_piece_on_board(self.b_bishop2.get_position(), self.b_bishop2.get_char())
 
         # Set rooks on board
-        self.set_piece_on_board(self.w_rook1.get_position(), self.w_rook1.get_char())
-        self.set_piece_on_board(self.w_rook2.get_position(), self.w_rook2.get_char())
-        self.set_piece_on_board(self.b_rook1.get_position(), self.b_rook1.get_char())
-        self.set_piece_on_board(self.b_rook2.get_position(), self.b_rook2.get_char())
+        self.__set_piece_on_board(self.w_rook1.get_position(), self.w_rook1.get_char())
+        self.__set_piece_on_board(self.w_rook2.get_position(), self.w_rook2.get_char())
+        self.__set_piece_on_board(self.b_rook1.get_position(), self.b_rook1.get_char())
+        self.__set_piece_on_board(self.b_rook2.get_position(), self.b_rook2.get_char())
 
         # Set queens on board
-        self.set_piece_on_board(self.w_queen.get_position(), self.w_queen.get_char())
-        self.set_piece_on_board(self.b_queen.get_position(), self.b_queen.get_char())
+        self.__set_piece_on_board(self.w_queen.get_position(), self.w_queen.get_char())
+        self.__set_piece_on_board(self.b_queen.get_position(), self.b_queen.get_char())
 
         #Set kings on board
-        self.set_piece_on_board(self.w_king.get_position(), self.w_king.get_char())
-        self.set_piece_on_board(self.b_king.get_position(), self.b_king.get_char())
+        self.__set_piece_on_board(self.w_king.get_position(), self.w_king.get_char())
+        self.__set_piece_on_board(self.b_king.get_position(), self.b_king.get_char())
 
     # Position der Figuren und auf dem Board werden zurückgesetzt
     def reset_board(self):
         for i in range(8):
             for i2 in range(8):
                 self._board[i][i2] = " "
-
-        self.reset_pieces()
-        self.set_all_pieces_on_board()
 
     # Return(t) die Schachfigur, die auf einer Position steht
     def find_piece_with_position(self, position: c_position) -> c_chess_piece:
@@ -377,18 +411,20 @@ class board():
             case _:
                     raise TypeError("Ungültigen Character eingegeben")
 
+    # TODO name, public/private usw anpassen wie nötig
     # Verschiebt Figur auf dem Schachfeld und ändert die Position der jeweiligen Figur
     # Wenn Figur geschlagen wird, wird _captured der Figur gesetzt
     # Wenn Figur geschlagen wird, wird der Wert der Figur - des Figurtypen - return(t)
-    def change_piece_position(self, position: c_position, new_position: c_position, piece: e_chess_piece) -> int:
+    def change_piece_position(self, new_position: c_position, piece: e_chess_piece) -> int:
         char = None
         value = 0
+        old_position = None 
         
         # Wenn eine Figur auf der neuen Position ist, wird captured gesetzt und value wird auf dessen Wert gesetzt
-        if self._board[new_position.linie.value][new_position.rang.value] != " ":
-            piece = self.find_piece_with_position()
-            piece.set_captured(e_chess_captured.yes)
-            value = piece.get_typ().value
+        if self._board[new_position._spalte.value][new_position._zeile.value] != " ":
+            geschlagen_piece = self.find_piece_with_position(new_position)
+            geschlagen_piece.set_captured(e_chess_captured.yes)
+            value = geschlagen_piece.get_typ().value
         
         # Figurposition wird auf new_position gesetzt, char Wert wird auf das Zeichen der Figur
         match piece:
@@ -397,150 +433,366 @@ class board():
             case e_chess_piece.w_pawn1_e:
                 self.w_pawn1.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn1.get_position()
             
             case e_chess_piece.w_pawn2_e:
                 self.w_pawn2.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn2.get_position()
 
             case e_chess_piece.w_pawn3_e:
                 self.w_pawn3.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn3.get_position()
 
             case e_chess_piece.w_pawn4_e:
                 self.w_pawn4.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn4.get_position()
 
             case e_chess_piece.w_pawn5_e:
                 self.w_pawn5.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn5.get_position()
 
             case e_chess_piece.w_pawn6_e:
                 self.w_pawn6.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn6.get_position()
 
             case e_chess_piece.w_pawn7_e:
                 self.w_pawn7.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn7.get_position()
 
             case e_chess_piece.w_pawn8_e:
                 self.w_pawn8.set_position(new_position)
                 char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn8.get_position()
 
             # case black pawns
             case e_chess_piece.b_pawn1_e:
                 self.b_pawn1.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn1.get_position()
             
             case e_chess_piece.b_pawn2_e:
                 self.w_pawn2.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn2.get_position()
 
             case e_chess_piece.b_pawn3_e:
                 self.b_pawn3.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn3.get_position()
 
             case e_chess_piece.b_pawn4_e:
                 self.w_pawn4.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn4.get_position()
 
             case e_chess_piece.b_pawn5_e:
                 self.b_pawn5.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn5.get_position()
 
             case e_chess_piece.b_pawn6_e:
                 self.b_pawn6.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn6.get_position()
 
             case e_chess_piece.b_pawn7_e:
                 self.b_pawn7.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn7.get_position()
 
             case e_chess_piece.b_pawn8_e:
                 self.b_pawn8.set_position(new_position)
                 char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn8.get_position()
 
             # case knights
             case e_chess_piece.w_knight1_e:
                 self.w_knight1.set_position(new_position)
                 char = e_chess_char.white_knight.value
+                old_position = self.w_knight1.get_position()
             
             case e_chess_piece.w_knight2_e:
                 self.w_knight1.set_position(new_position)
                 char = e_chess_char.white_knight.value
+                old_position = self.w_knight2.get_position()
 
             case e_chess_piece.b_knight1_e:
                 self.b_knight1.set_position(new_position)
                 char = e_chess_char.black_knight.value
+                old_position = self.b_knight1.get_position()
 
             case e_chess_piece.b_knight2_e:
                 self.b_knight1.set_position(new_position)
                 char = e_chess_char.black_knight.value
+                old_position = self.b_knight2.get_position()
 
             # case bishops
             case e_chess_piece.w_bishop1_e:
                 self.w_bishop1.set_position(new_position)
                 char = e_chess_char.white_bishop.value
+                old_position = self.w_bishop1.get_position()
 
             case e_chess_piece.w_bishop2_e:
                 self.w_bishop2.set_position(new_position)
                 char = e_chess_char.white_bishop.value
+                old_position = self.w_bishop2.get_position()
 
             case e_chess_piece.b_bishop1_e:
                 self.b_bishop1.set_position(new_position)
                 char = e_chess_char.black_bishop.value
+                old_position = self.b_bishop1.get_position()
 
             case e_chess_piece.b_bishop2_e:
                 self.b_bishop2.set_position(new_position)
                 char = e_chess_char.black_bishop.value
+                old_position = self.b_bishop2.get_position()
 
             # case rooks
             case e_chess_piece.w_rook1_e:
                 self.w_rook1.set_position(new_position)
                 char = e_chess_char.white_rook.value
+                old_position = self.w_rook1.get_position()
 
             case e_chess_piece.w_rook2_e:
                 self.w_rook2.set_position(new_position)
                 char = e_chess_char.white_rook.value
+                old_position = self.w_rook2.get_position()
 
             case e_chess_piece.b_rook1_e:
                 self.b_rook1.set_position(new_position)
                 char = e_chess_char.black_rook.value
+                old_position = self.b_rook1.get_position()
 
             case e_chess_piece.b_rook2_e:
                 self.b_rook2.set_position(new_position)
                 char = e_chess_char.black_rook.value
+                old_position = self.b_rook2.get_position()
             
             # case queens
             case e_chess_piece.w_queen_e:
                 self.w_queen.set_position(new_position)
                 char = e_chess_char.white_queen.value
+                old_position = self.w_queen.get_position()
 
             case e_chess_piece.b_queen_e:
                 self.b_queen.set_position(new_position)
                 char = e_chess_char.black_queen.value
+                old_position = self.b_queen.get_position()
 
             # case kings
             case e_chess_piece.w_king_e:
                 self.w_king.set_position(new_position)
                 char = e_chess_char.white_king.value
+                old_position = self.w_king.get_position()
 
             case e_chess_piece.b_king_e:
                 self.b_king.set_position(new_position)
                 char = e_chess_char.black_king.value
+                old_position = self.b_king.get_position()
 
             case _:
                 raise TypeError("Ungültige Figur eingegeben")
 
 
-        self._board[position.linie.value][position.rang.value] = " "
-        self._board[new_position.linie.value][new_position.rang.value] = char
+        self._board[old_position._spalte.value][old_position._zeile.value] = " "
+        self._board[new_position._spalte.value][new_position._zeile.value] = char
 
         return value
 
-    
-    def make_a_move(self, move: e_move):
+    def is_piece_move_possible(self, new_position: c_position, piece: e_chess_piece, latest_opponent_move: c_move) -> bool:
+        check = None
+        match piece:
+
+            # case white pawns
+            case e_chess_piece.w_pawn1_e:
+                check = self.w_pawn1.laufen_possible()
+                
+            
+            case e_chess_piece.w_pawn2_e:
+                self.w_pawn2.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn2.get_position()
+
+            case e_chess_piece.w_pawn3_e:
+                self.w_pawn3.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn3.get_position()
+
+            case e_chess_piece.w_pawn4_e:
+                self.w_pawn4.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn4.get_position()
+
+            case e_chess_piece.w_pawn5_e:
+                self.w_pawn5.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn5.get_position()
+
+            case e_chess_piece.w_pawn6_e:
+                self.w_pawn6.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn6.get_position()
+
+            case e_chess_piece.w_pawn7_e:
+                self.w_pawn7.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn7.get_position()
+
+            case e_chess_piece.w_pawn8_e:
+                self.w_pawn8.set_position(new_position)
+                char = e_chess_char.white_pawn.value
+                old_position = self.w_pawn8.get_position()
+
+            # case black pawns
+            case e_chess_piece.b_pawn1_e:
+                self.b_pawn1.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn1.get_position()
+            
+            case e_chess_piece.b_pawn2_e:
+                self.w_pawn2.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn2.get_position()
+
+            case e_chess_piece.b_pawn3_e:
+                self.b_pawn3.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn3.get_position()
+
+            case e_chess_piece.b_pawn4_e:
+                self.w_pawn4.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn4.get_position()
+
+            case e_chess_piece.b_pawn5_e:
+                self.b_pawn5.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn5.get_position()
+
+            case e_chess_piece.b_pawn6_e:
+                self.b_pawn6.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn6.get_position()
+
+            case e_chess_piece.b_pawn7_e:
+                self.b_pawn7.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn7.get_position()
+
+            case e_chess_piece.b_pawn8_e:
+                self.b_pawn8.set_position(new_position)
+                char = e_chess_char.black_pawn.value
+                old_position = self.b_pawn8.get_position()
+
+            # case knights
+            case e_chess_piece.w_knight1_e:
+                self.w_knight1.set_position(new_position)
+                char = e_chess_char.white_knight.value
+                old_position = self.w_knight1.get_position()
+            
+            case e_chess_piece.w_knight2_e:
+                self.w_knight1.set_position(new_position)
+                char = e_chess_char.white_knight.value
+                old_position = self.w_knight2.get_position()
+
+            case e_chess_piece.b_knight1_e:
+                self.b_knight1.set_position(new_position)
+                char = e_chess_char.black_knight.value
+                old_position = self.b_knight1.get_position()
+
+            case e_chess_piece.b_knight2_e:
+                self.b_knight1.set_position(new_position)
+                char = e_chess_char.black_knight.value
+                old_position = self.b_knight2.get_position()
+
+            # case bishops
+            case e_chess_piece.w_bishop1_e:
+                self.w_bishop1.set_position(new_position)
+                char = e_chess_char.white_bishop.value
+                old_position = self.w_bishop1.get_position()
+
+            case e_chess_piece.w_bishop2_e:
+                self.w_bishop2.set_position(new_position)
+                char = e_chess_char.white_bishop.value
+                old_position = self.w_bishop2.get_position()
+
+            case e_chess_piece.b_bishop1_e:
+                self.b_bishop1.set_position(new_position)
+                char = e_chess_char.black_bishop.value
+                old_position = self.b_bishop1.get_position()
+
+            case e_chess_piece.b_bishop2_e:
+                self.b_bishop2.set_position(new_position)
+                char = e_chess_char.black_bishop.value
+                old_position = self.b_bishop2.get_position()
+
+            # case rooks
+            case e_chess_piece.w_rook1_e:
+                self.w_rook1.set_position(new_position)
+                char = e_chess_char.white_rook.value
+                old_position = self.w_rook1.get_position()
+
+            case e_chess_piece.w_rook2_e:
+                self.w_rook2.set_position(new_position)
+                char = e_chess_char.white_rook.value
+                old_position = self.w_rook2.get_position()
+
+            case e_chess_piece.b_rook1_e:
+                self.b_rook1.set_position(new_position)
+                char = e_chess_char.black_rook.value
+                old_position = self.b_rook1.get_position()
+
+            case e_chess_piece.b_rook2_e:
+                self.b_rook2.set_position(new_position)
+                char = e_chess_char.black_rook.value
+                old_position = self.b_rook2.get_position()
+            
+            # case queens
+            case e_chess_piece.w_queen_e:
+                self.w_queen.set_position(new_position)
+                char = e_chess_char.white_queen.value
+                old_position = self.w_queen.get_position()
+
+            case e_chess_piece.b_queen_e:
+                self.b_queen.set_position(new_position)
+                char = e_chess_char.black_queen.value
+                old_position = self.b_queen.get_position()
+
+            # case kings
+            case e_chess_piece.w_king_e:
+                self.w_king.set_position(new_position)
+                char = e_chess_char.white_king.value
+                old_position = self.w_king.get_position()
+
+            case e_chess_piece.b_king_e:
+                self.b_king.set_position(new_position)
+                char = e_chess_char.black_king.value
+                old_position = self.b_king.get_position()
+
+            case _:
+                raise TypeError("Ungültige Figur eingegeben")
+
+    def is_piece_move_allowed(self, position: c_position, new_position: c_position, piece: e_chess_piece) -> bool:
         return 0
 
+    def is_piece_move_possible_and_allowed(self, position: c_position, new_position: c_position, piece: e_chess_piece) -> bool:
+        return 0
+    
+    def move_piece_on_board_and_piece_position(self, move: c_move) -> bool:
+        # TODO
+        return 0
+                                               
+
+    
+    # Get Funktionen
+    def get_board(self) -> list:
+        return self._board
 
 
 

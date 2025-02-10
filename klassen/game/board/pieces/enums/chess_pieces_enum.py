@@ -1,5 +1,5 @@
 from enum import Enum
-from klassen.enums.notation_enum import e_notation
+from klassen.game.enums.notation_enum import e_notation
 
 # Diese Klasse dient als Enumeration der verschiedenen Schachfiguren auf dem Board
 class e_chess_piece(Enum):

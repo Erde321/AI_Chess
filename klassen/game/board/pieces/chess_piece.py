@@ -34,7 +34,7 @@ class c_chess_piece(ABC):
         
         self._farbe = farbe
         self._typ = typ
-        self._captured
+        self._captured = captured
 
         self._position = position
 
@@ -64,7 +64,6 @@ class c_chess_piece(ABC):
     def get_char(self) -> e_chess_char:
         pass
     
-
     @abstractmethod
-    def laufen_possible(self) -> bool:
+    def laufen_possible(self, *args, **kwargs) -> bool:
         pass
