@@ -372,6 +372,8 @@ class e_zeile(Enum):
         except ValueError:
             raise ValueError(f"Kein passendes Enum-Mitglied für Wert {new_value}")
 
+        
+
 
 class e_spalte_value(Enum):
     a = 7
@@ -762,3 +764,50 @@ class c_position():
         
         self._zeile = zeile
         self._spalte = spalte
+
+    def return_zeile_with_int_input(self, zahl: int) -> e_zeile:
+        match zahl:
+            case 0:
+                return e_zeile.r_1
+            case 1:
+                return e_zeile.r_2
+            case 2:
+                return e_zeile.r_3
+            case 3:
+                return e_zeile.r_4
+            case 4:
+                return e_zeile.r_5
+            case 5:
+                return e_zeile.r_6
+            case 6:
+                return e_zeile.r_7
+            case 7:
+                return e_zeile.r_8
+            case _:
+                raise IndexError("Falsche Zahl")
+            
+    def return_spalte_with_int_input(self, zahl: int) -> e_spalte:
+        match zahl:
+            case 0:
+                return e_spalte.r_1
+            case 1:
+                return e_spalte.r_2
+            case 2:
+                return e_spalte.r_3
+            case 3:
+                return e_spalte.r_4
+            case 4:
+                return e_spalte.r_5
+            case 5:
+                return e_spalte.r_6
+            case 6:
+                return e_spalte.r_7
+            case 7:
+                return e_spalte.r_8
+            case _:
+                raise IndexError("Falsche Zahl")
+            
+    def set_position(self, x: int, y:int):
+
+        self._zeile = self.return_zeile_with_int_input(y)
+        self._spalte = self.return_spalte_with_int_input(x)

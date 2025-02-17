@@ -6,6 +6,7 @@ from chess_piece import c_chess_piece
 from board.position_and_position_enum import c_position
 from board.position_and_position_enum import e_zeile
 from board.position_and_position_enum import e_spalte
+from board.pieces.enums.mate_enum import e_mate
 
 
 
@@ -67,10 +68,14 @@ class c_king(c_chess_piece):
             case (e_zeile.r_8, _):
                 if new_position._zeile == self._position._zeile + 1:
                     return 0
+                if new_position._spalte == e_spalte.l_a and new_position._spalte == self._position._spalte - 1:
+                    return 0
                 return 1
 
             case (e_zeile.r_1, _):
                 if new_position._zeile == self._position._zeile - 1:
+                    return 0
+                if new_position._spalte == e_spalte.l_h and  new_position._spalte == self._position._spalte + 1:
                     return 0
                 return 1
 
@@ -87,5 +92,447 @@ class c_king(c_chess_piece):
             case _:
                 return 0
         return 0
+
+    def mate_check(self, board: list) -> e_mate:
+        ausgabe = e_mate
+        list_blocked_feld = list
+        position = c_position
+        for x in range(0,8):
+            for y in range(0,8):
+                match self._farbe:
+                    case e_chess_color.white:
+                        if board[x][y] != " " and board[x][y] != e_chess_char.white_king.value:
+                            position.set_position(x,y)
+                            list_blocked_feld.append(position)
+                        match board[x][y]:
+                            case e_chess_char.black_pawn.value:
+                                if y+1 < 8 and board[x][y+1] != " ":
+                                    position.set_position(x,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and board[x][y-1] != " ":
+                                    position.set_position(x,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                            
+                            case e_chess_char.black_knight.value:
+                                if y+1 < 8 and x+2 < 8 and board[x+2][y+1] != " ":
+                                    position.set_position(x+2,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+1 < 8 and x-2 > -1 and board[x-2][y+1] != " ":
+                                    position.set_position(x-2,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and x+2 < 8 and board[x+2][y-1] != " ":
+                                    position.set_position(x+2,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and x-2 > -1 and board[x-2][y-1] != " ":
+                                    position.set_position(x-2,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+2 < 8 and x+1 < 8 and board[x+1][y+2] != " ":
+                                    position.set_position(x+1,y+2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+2 < 8 and x-1 > -1 and board[x-1][y+2] != " ":
+                                    position.set_position(x-1,y+2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-2 > -1 and x+1 < 8 and board[x+1][y-2] != " ":
+                                    position.set_position(x+1,y-2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-2 > -1 and x-1 > -1 and board[x-1][y-2] != " ":
+                                    position.set_position(x-1,y-2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+
+                            case e_chess_char.black_bishop:
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y+i > 7):
+                                        if board[x+i][y+i] != " ":
+                                            break
+                                        position.set_position(x+i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0 or y+i > 7):
+                                        if board[x-i][y+i] != " ": 
+                                            break
+                                        position.set_position(x-i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y-i < 0):
+                                        if board[x+i][y-i] != " ":
+                                            break
+                                        position.set_position(x+i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 7 or y-i < 0):
+                                        if board[x-i][y-i] != " ":
+                                            break
+                                        position.set_position(x-i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+
+                            case e_chess_char.black_rook:
+                                for i in range(1,7):
+                                    if not(x+i > 7):
+                                        if board[x+i][y] != " ":
+                                            break
+                                        position.set_position(x+i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0):
+                                        if board[x-i][y] != " ":
+                                            break
+                                        position.set_position(x-i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y+i > 7):
+                                        if board[x][y+i] == " ":
+                                            break
+                                        position.set_position(x,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y-i < 0):
+                                        if board[x][y-i] != " ":
+                                            break
+                                        position.set_position(x,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+
+                            case e_chess_char.black_queen:
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y+i > 7):
+                                        if board[x+i][y+i] != " ":
+                                            break
+                                        position.set_position(x+i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0 or y+i > 7):
+                                        if board[x-i][y+i] != " ":
+                                            break
+                                        position.set_position(x-i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y-i < 0):
+                                        if board[x+i][y-i] != " ":
+                                            break
+                                        position.set_position(x+i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 7 or y-i < 0):
+                                        if board[x-i][y-i] != " ":
+                                            break
+                                        position.set_position(x-i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7):
+                                        if board[x+i][y] != " ":
+                                            break
+                                        position.set_position(x+i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0):
+                                        if board[x-i][y] != " ":
+                                            break
+                                        position.set_position(x-i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y+i > 7):
+                                        if board[x][y+i] != " ":
+                                            break
+                                        position.set_position(x,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y-i < 0):
+                                        if board[x][y-i] != " ":
+                                            break
+                                        position.set_position(x,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                            
+                            case e_chess_char.black_king:
+                                if not(x+1 > 7):
+                                    if board[x+1][y] == " ":
+                                        position.set_position(x+1,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                        if not(y+1 > 7):
+                                            position.set_position(x+1,y+1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                        if not(y-1 < 0):
+                                            position.set_position(x+1,y-1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                if not(x-1 < 0):
+                                    if board[x-1][y] == " ":
+                                        position.set_position(x-1,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                        if not(y+1 > 7):
+                                            position.set_position(x-1,y+1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                        if not(y-1 < 0):
+                                            position.set_position(x-1,y-1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                if not(y+1 > 7):
+                                    if board[x][y+1] == " ":
+                                        position.set_position(x,y+1)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                if not(y-1 > 7):
+                                    if board[x][y+1] == " ":
+                                        position.set_position(x,y+1)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)         
+                        
+                            case _:
+                                continue
+                                
+                    case e_chess_color.black:
+                        if board[x][y] != " " and board[x][y] != e_chess_char.black_king.value:
+                            position.set_position(x,y)
+                            list_blocked_feld.append(position)
+                        match board[x][y]:
+                            case e_chess_char.white_pawn.value:
+                                if y+1 < 8 and board[x][y+1] != " ":
+                                    position.set_position(x,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and board[x][y-1] != " ":
+                                    position.set_position(x,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+
+                            case e_chess_char.white_knight.value:
+                                if y+1 < 8 and x+2 < 8 and board[x+2][y+1] != " ":
+                                    position.set_position(x+2,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+1 < 8 and x-2 > -1 and board[x-2][y+1] != " ":
+                                    position.set_position(x-2,y+1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and x+2 < 8 and board[x+2][y-1] != " ":
+                                    position.set_position(x+2,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-1 > -1 and x-2 > -1 and board[x-2][y-1] != " ":
+                                    position.set_position(x-2,y-1)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+2 < 8 and x+1 < 8 and board[x+1][y+2] != " ":
+                                    position.set_position(x+1,y+2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y+2 < 8 and x-1 > -1 and board[x-1][y+2] != " ":
+                                    position.set_position(x-1,y+2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-2 > -1 and x+1 < 8 and board[x+1][y-2] != " ":
+                                    position.set_position(x+1,y-2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+                                if y-2 > -1 and x-1 > -1 and board[x-1][y-2] != " ":
+                                    position.set_position(x-1,y-2)
+                                    if not(position in list_blocked_feld):
+                                        list_blocked_feld.append(position)
+
+                            case e_chess_char.white_bishop:
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y+i > 7):
+                                        if board[x+i][y+i] != " ":
+                                            break
+                                        position.set_position(x+i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0 or y+i > 7):
+                                        if board[x-i][y+i] != " ": 
+                                            break
+                                        position.set_position(x-i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y-i < 0):
+                                        if board[x+i][y-i] != " ":
+                                            break
+                                        position.set_position(x+i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 7 or y-i < 0):
+                                        if board[x-i][y-i] != " ":
+                                            break
+                                        position.set_position(x-i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+
+                            case e_chess_char.white_rook:
+                                for i in range(1,7):
+                                    if not(x+i > 7):
+                                        if board[x+i][y] != " ":
+                                            break
+                                        position.set_position(x+i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0):
+                                        if board[x-i][y] != " ":
+                                            break
+                                        position.set_position(x-i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y+i > 7):
+                                        if board[x][y+i] == " ":
+                                            break
+                                        position.set_position(x,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y-i < 0):
+                                        if board[x][y-i] != " ":
+                                            break
+                                        position.set_position(x,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+
+                            case e_chess_char.white_queen:
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y+i > 7):
+                                        if board[x+i][y+i] != " ":
+                                            break
+                                        position.set_position(x+i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0 or y+i > 7):
+                                        if board[x-i][y+i] != " ":
+                                            break
+                                        position.set_position(x-i,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7 or y-i < 0):
+                                        if board[x+i][y-i] != " ":
+                                            break
+                                        position.set_position(x+i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 7 or y-i < 0):
+                                        if board[x-i][y-i] != " ":
+                                            break
+                                        position.set_position(x-i,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x+i > 7):
+                                        if board[x+i][y] != " ":
+                                            break
+                                        position.set_position(x+i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(x-i < 0):
+                                        if board[x-i][y] != " ":
+                                            break
+                                        position.set_position(x-i,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y+i > 7):
+                                        if board[x][y+i] != " ":
+                                            break
+                                        position.set_position(x,y+i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                for i in range(1,7):
+                                    if not(y-i < 0):
+                                        if board[x][y-i] != " ":
+                                            break
+                                        position.set_position(x,y-i)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                            
+                            case e_chess_char.white_king:
+                                if not(x+1 > 7):
+                                    if board[x+1][y] == " ":
+                                        position.set_position(x+1,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                        if not(y+1 > 7):
+                                            position.set_position(x+1,y+1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                        if not(y-1 < 0):
+                                            position.set_position(x+1,y-1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                if not(x-1 < 0):
+                                    if board[x-1][y] == " ":
+                                        position.set_position(x-1,y)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                        if not(y+1 > 7):
+                                            position.set_position(x-1,y+1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                        if not(y-1 < 0):
+                                            position.set_position(x-1,y-1)
+                                            if not(position in list_blocked_feld):
+                                                list_blocked_feld.append(position)
+                                if not(y+1 > 7):
+                                    if board[x][y+1] == " ":
+                                        position.set_position(x,y+1)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+                                if not(y-1 > 7):
+                                    if board[x][y+1] == " ":
+                                        position.set_position(x,y+1)
+                                        if not(position in list_blocked_feld):
+                                            list_blocked_feld.append(position)
+
+                            case _:
+                                continue
+                    case _:
+                        raise TypeError("Falsche Farbe")
+
+        match self._farbe:
+            case e_chess_color.white:
+                for pos in list_blocked_feld:
+                    if board[pos._spalte][pos._zeile] == e_chess_char.white_king.value:
+                        
+                        return e_mate.check_mate
+                return e_mate.no_mate
+
+            case e_chess_color.black:
+                for pos in list_blocked_feld:
+                    if board[pos._spalte][pos._zeile] == e_chess_char.black_king.value:
+                        return e_mate.checkmate
+                return e_mate.no_mate
+
+            case _:
+                raise TypeError("Falsche Farbe")
 
             

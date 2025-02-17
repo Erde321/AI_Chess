@@ -76,7 +76,7 @@ class c_pawn(c_chess_piece):
     # Ist der Zug möglich Funktion
     #-------------------------------------------------------------------
     # Alle Laufmöglichkeiten wegen pawn promoten
-    def laufen_possible(self, new_position: c_position, latest_opponent_move: c_move) -> bool:
+    def laufen_possible(self, new_position: c_position, latest_opponent_new_position: c_position, latest_opponent_old_position: c_position, latest_opponent_piece_type: e_chess_typ) -> bool:
         
         match self._promote:
             case e_chess_typ.pawn:
@@ -87,9 +87,9 @@ class c_pawn(c_chess_piece):
                             return 1
                         elif new_position._zeile == self._position._zeile + 1 and new_position._spalte == self._position._spalte:
                             return 1
-                        elif new_position._zeile == self._position._zeile + 1 and new_position._spalte == self._position._spalte + 1 and latest_opponent_move._piece.get_typ() == e_chess_typ.pawn and latest_opponent_move.get_old_position()._zeile == self._position._zeile + 2 and latest_opponent_move.get_new_position()._zeile == self._position._zeile and self._position._spalte == latest_opponent_move.get_old_position()._spalte - 1:
+                        elif new_position._zeile == self._position._zeile + 1 and new_position._spalte == self._position._spalte + 1 and latest_opponent_piece_type == e_chess_typ.pawn and latest_opponent_old_position._zeile == self._position._zeile + 2 and latest_opponent_new_position._zeile == self._position._zeile and self._position._spalte == latest_opponent_old_position._spalte - 1:
                             return 1
-                        elif new_position._zeile == self._position._zeile + 1 and new_position._spalte == self._position._spalte - 1 and latest_opponent_move._piece.get_typ() == e_chess_typ.pawn and latest_opponent_move.get_old_position()._zeile == self._position._zeile + 2 and latest_opponent_move.get_new_position()._zeile == self._position._zeile and self._position._spalte == latest_opponent_move.get_old_position()._spalte + 1:
+                        elif new_position._zeile == self._position._zeile + 1 and new_position._spalte == self._position._spalte - 1 and latest_opponent_piece_type == e_chess_typ.pawn and latest_opponent_old_position._zeile == self._position._zeile + 2 and latest_opponent_new_position._zeile == self._position._zeile and self._position._spalte == latest_opponent_old_position._spalte + 1:
                             return 1
                         else:
                             return 0
@@ -99,9 +99,9 @@ class c_pawn(c_chess_piece):
                             return 1
                         elif new_position._zeile == self._position._zeile - 1 and new_position._spalte == self._position._spalte:
                             return 1
-                        elif new_position._zeile == self._position._zeile - 1 and new_position._spalte == self._position._spalte + 1 and latest_opponent_move._piece.get_typ() == e_chess_typ.pawn and latest_opponent_move.get_old_position()._zeile == self._position._zeile - 2 and latest_opponent_move.get_new_position()._zeile == self._position._zeile and self._position._spalte == latest_opponent_move.get_old_position()._spalte + 1:
+                        elif new_position._zeile == self._position._zeile - 1 and new_position._spalte == self._position._spalte + 1 and latest_opponent_piece_type == e_chess_typ.pawn and latest_opponent_old_position._zeile == self._position._zeile - 2 and latest_opponent_new_position._zeile == self._position._zeile and self._position._spalte == latest_opponent_old_position._spalte + 1:
                             return 1
-                        elif new_position._zeile == self._position._zeile - 1 and new_position._spalte == self._position._spalte - 1 and latest_opponent_move._piece.get_typ() == e_chess_typ.pawn and latest_opponent_move.get_old_position()._zeile == self._position._zeile - 2 and latest_opponent_move.get_new_position()._zeile == self._position._zeile and self._position._spalte == latest_opponent_move.get_old_position()._spalte - 1:
+                        elif new_position._zeile == self._position._zeile - 1 and new_position._spalte == self._position._spalte - 1 and latest_opponent_piece_type == e_chess_typ.pawn and latest_opponent_old_position._zeile == self._position._zeile - 2 and latest_opponent_new_position._zeile == self._position._zeile and self._position._spalte == latest_opponent_old_position._spalte - 1:
                             return 1
                         else:
                             return 0

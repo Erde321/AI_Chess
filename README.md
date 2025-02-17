@@ -26,12 +26,6 @@ Run the main script to start training an AI model:
 will follow
 ```
 
-## Roadmap
-- Implement basic rule-based AI
-- Train AI using reinforcement learning
-- Develop an interface for AI vs. AI matches
-- Optimize model performance
-
 ## Contributions
 This is a personal learning project, but contributions and suggestions are welcome!
 

@@ -8,6 +8,8 @@ from board.position_and_position_enum import e_spalte
 from board.position_and_position_enum import e_zeile
 from board.pieces.chess_piece import c_chess_piece
 from game.board.board import c_board
+from enums.move_info_type_enum import e_move_info_type
+from game.board.pieces.enums.chess_color_enum import e_chess_color
 
 # Diese Klasse dient als Enumeration der Farben einer Schachfigur
 class c_move():
@@ -91,10 +93,11 @@ class c_move():
 
 
     # Konstruktor
-    def __init__(self, move_player: e_move_player):
+    def __init__(self, move_player: e_move_player, farbe: e_chess_color):
         self._move = ""
         self._move_type = e_move_type.notdef
         self._move_player = move_player
+        self._farbe = farbe
         self._old_position = c_position(e_spalte.notdef, e_zeile.notdef)
         self._new_position = c_position(e_spalte.notdef, e_zeile.notdef)
         self._piece = None
@@ -1016,10 +1019,33 @@ class c_move():
             case e_files.h.value:
                 rank = e_spalte.l_h
 
-    def new_position_to_piece(self, board: c_board) -> c_chess_piece:
-        # TODO
-        match self._move_type:
-            case 
 
+    
+    def new_position_to_piece(self, board: c_board, latestopponent_move_position: c_position) -> tuple[c_chess_piece, e_move_info_type]:
+        match self._move_type:
+
+            case e_move_type.pawn_file_rank | e_move_type.pawn_file_rank_check | e_move_type.pawn_file_rank_check_mate | e_move_type.pawn_schlagen_file_rank | e_move_type.pawn_schlagen_file_rank_check | e_move_type.pawn_schlagen_file_rank_check_mate | e_move_type.knight_file_rank | e_move_type.knight_file_rank_check | e_move_type.knight_file_rank_check_mate | e_move_type.knight_schlagen_file_rank | e_move_type.knight_schlagen_file_rank_check | e_move_type.knight_schlagen_file_rank_check_mate | e_move_type.bishop_file_rank | e_move_type.bishop_file_rank_check | e_move_type.bishop_file_rank_check_mate | e_move_type.bishop_schlagen_file_rank | e_move_type.bishop_schlagen_file_rank_check | e_move_type.bishop_schlagen_file_rank_check_mate | e_move_type.rook_file_rank | e_move_type.rook_file_rank_check | e_move_type.rook_file_rank_check_mate | e_move_type.rook_schlagen_file_rank | e_move_type.rook_schlagen_file_rank_check | e_move_type.rook_schlagen_file_rank_check_mate | e_move_type.queen_file_rank | e_move_type.queen_file_rank_check | e_move_type.queen_file_rank_check_mate | e_move_type.queen_schlagen_file_rank | e_move_type.queen_schlagen_file_rank_check | e_move_type.queen_schlagen_file_rank_check_mate | e_move_type.king_file_rank | e_move_type.king_file_rank_check | e_move_type.king_file_rank_check_mate | e_move_type.king_schlagen_file_rank | e_move_type.king_schlagen_file_rank_check | e_move_type.king_schlagen_file_rank_check_mate:
+                if board.how_many_pieces_can_do_this_move(self._move_type, self._farbe) > 1:
+                    return None, e_move_info_type.too_many_pieces
+                elif board.how_many_pieces_can_do_this_move(self._move_type, self._farbe) == 1:
+                    if board.is_piece_on_position(self._move) and (not "x" in self._move):
+                        return None, e_move_info_type.schlagen_fehlt
+                    if 
+                else:
+                    return None, e_move_info_type.notdef
+
+            case e_move_type.pawn_file_rank_promote | e_move_type.pawn_file_rank_promote_check | e_move_type.pawn_file_rank_promote_check_mate | e_move_type.pawn_schlagen_file_rank_promote | e_move_type.pawn_schlagen_file_rank_promote_check | e_move_type.pawn_schlagen_file_rank_promote_check_mate:
+
+            case e_move_type.knight_file_file_rank | e_move_type.knight_file_file_rank_check | e_move_type.knight_file_file_rank_check_mate | e_move_type.bishop_file_file_rank | e_move_type.bishop_file_file_rank_check | e_move_type.bishop_file_file_rank_check_mate | e_move_type.rook_file_file_rank | e_move_type.rook_file_file_rank_check | e_move_type.rook_file_file_rank_check_mate | e_move_type.queen_file_file_rank | e_move_type.queen_file_file_rank_check | e_move_type.queen_file_file_rank_check_mate:
+
+            case e_move_type.knight_rank_file_rank | e_move_type.knight_rank_file_rank_check | e_move_type.knight_rank_file_rank_check_mate | e_move_type.bishop_rank_file_rank | e_move_type.bishop_rank_file_rank_check | e_move_type.bishop_rank_file_rank_check_mate | e_move_type.rook_rank_file_rank | e_move_type.rook_rank_file_rank_check | e_move_type.rook_rank_file_rank_check_mate | e_move_type.queen_rank_file_rank | e_move_type.queen_rank_file_rank_check | e_move_type.queen_rank_file_rank_check_mate:
+
+            case e_move_type.knight_file_rank_file_rank | e_move_type.knight_file_rank_file_rank_check | e_move_type.knight_file_rank_file_rank_check_mate | e_move_type.bishop_file_rank_file_rank | e_move_type.bishop_file_rank_file_rank_check | e_move_type.bishop_file_rank_file_rank_check_mate | e_move_type.rook_file_rank_file_rank | e_move_type.rook_file_rank_file_rank_check | e_move_type.rook_file_rank_file_rank_check_mate | e_move_type.queen_file_rank_file_rank | e_move_type.queen_file_rank_file_rank_check | e_move_type.queen_file_rank_file_rank_check_mate | e_move_type.knight_file_rank_schlagen_file_rank | e_move_type.knight_file_rank_schlagen_file_rank_check | e_move_type.knight_file_rank_schlagen_file_rank_check_mate | e_move_type.bishop_file_rank_schlagen_file_rank | e_move_type.bishop_file_rank_schlagen_file_rank_check | e_move_type.bishop_file_rank_schlagen_file_rank_check_mate | e_move_type.rook_file_rank_schlagen_file_rank | e_move_type.rook_file_rank_schlagen_file_rank_check | e_move_type.rook_file_rank_schlagen_file_rank_check_mate | e_move_type.queen_file_rank_schlagen_file_rank | e_move_type.queen_file_rank_schlagen_file_rank_check | e_move_type.queen_file_rank_schlagen_file_rank_check_mate:
+
+            case e_move_type.roche | e_move_type.roche_check | e_move_type.roche_check_mate | e_move_type.roche_long | e_move_type.roche_long_check | e_move_type.roche_long_check_mate:
+
+            case _:
+                raise TypeError("Falscher Movetyp")
+            
         return 0
     

@@ -7,6 +7,7 @@ from pieces.king import c_king
 from pieces.chess_piece import c_chess_piece
 from klassen.game.board.pieces.enums.position_start_const_enum import position_start_const
 from board.pieces.enums.chess_color_enum import e_chess_color
+from board.pieces.enums.chess_typ_enum import e_chess_typ
 from board.pieces.enums.chess_captured_enum import e_chess_captured
 from board.pieces.enums.chess_pieces_enum import e_chess_piece
 from board.pieces.enums.chess_char_enum import e_chess_char
@@ -408,9 +409,15 @@ class c_board():
             case e_chess_char.black_king:
                 return self.b_king
             
+            
             case _:
                     raise TypeError("Ungültigen Character eingegeben")
 
+    def is_piece_on_position(self, position: c_position) -> bool:
+        if self._board[position._spalte.value][position._zeile.value] != e_chess_char.space.value:
+            return 1
+        return 0
+    
     # TODO name, public/private usw anpassen wie nötig
     # Verschiebt Figur auf dem Schachfeld und ändert die Position der jeweiligen Figur
     # Wenn Figur geschlagen wird, wird _captured der Figur gesetzt
@@ -793,10 +800,100 @@ class c_board():
     # Get Funktionen
     def get_board(self) -> list:
         return self._board
+    
+    def how_many_pieces_can_do_this_move(self, move_type: e_move_type, farbe: e_chess_color) -> int:
+        count = None
+        match move_type:
+            #pawn
+            case e_move_type.pawn_file_rank | e_move_type.pawn_file_rank_check | e_move_type.pawn_file_rank_check_mate | e_move_type.pawn_file_rank_promote | e_move_type.pawn_schlagen_file_rank | e_move_type.pawn_file_rank_promote_check | e_move_type.pawn_file_rank_promote_check_mate | e_move_type.pawn_schlagen_file_rank_check | e_move_type.pawn_schlagen_file_rank_check_mate | e_move_type.pawn_schlagen_file_rank_promote | e_move_type.pawn_schlagen_file_rank_promote_check | e_move_type.pawn_schlagen_file_rank_promote_check_mate:
+                
+                if farbe == e_chess_color.black:
+                    if self.b_pawn1.laufen_possible():
+                        count += 1
+                    if self.b_pawn2.laufen_possible():
+                        count += 1
+                    if self.b_pawn3.laufen_possible():
+                        count += 1
+                    if self.b_pawn4.laufen_possible():
+                        count += 1
+                    if self.b_pawn5.laufen_possible():
+                        count += 1
+                    if self.b_pawn6.laufen_possible():
+                        count += 1
+                    if self.b_pawn7.laufen_possible():
+                        count += 1
+                    if self.b_pawn8.laufen_possible():
+                        count += 1
+                elif farbe == e_chess_color.white:
+                    if self.w_pawn1.laufen_possible():
+                        count += 1
+                    if self.w_pawn2.laufen_possible():
+                        count += 1
+                    if self.w_pawn3.laufen_possible():
+                        count += 1
+                    if self.w_pawn4.laufen_possible():
+                        count += 1
+                    if self.w_pawn5.laufen_possible():
+                        count += 1
+                    if self.w_pawn6.laufen_possible():
+                        count += 1
+                    if self.w_pawn7.laufen_possible():
+                        count += 1
+                    if self.w_pawn8.laufen_possible():
+                        count += 1
+                else:
+                    raise TypeError("Falsche Farbe")
+            #knight
+            case e_move_type.knight_file_rank | e_move_type.knight_file_rank_check | e_move_type.knight_file_rank_check_mate | e_move_type.knight_schlagen_file_rank | e_move_type.knight_schlagen_file_rank_check | e_move_type.knight_schlagen_file_rank_check_mate:
+                if farbe == e_chess_color.black:
+                    if self.b_knight1.laufen_possible():
+                        count += 1
+                    if self.b_knight2.laufen_possible():
+                        count += 1
+                elif farbe == e_chess_color.white:
+                    if self.w_knight1.laufen_possible():
+                        count += 1
+                    if self.w_knight2.laufen_possible():
+                        count += 1
+                else:
+                    raise TypeError("Falsche Farbe")
+            #bishop
+            case e_move_type.bishop_file_rank | e_move_type.bishop_file_rank_check | e_move_type.bishop_file_rank_check_mate | e_move_type.bishop_schlagen_file_rank | e_move_type.bishop_schlagen_file_rank_check | e_move_type.bishop_schlagen_file_rank_check_mate:
+                if farbe == e_chess_color.black:
+                    if self.b_bishop1.laufen_possible():
+                        count += 1
+                    if self.b_bishop2.laufen_possible():
+                        count += 1
+                elif farbe == e_chess_color.white:
+                    if self.w_bishop1.laufen_possible():
+                        count += 1
+                    if self.w_bishop2.laufen_possible():
+                        count += 1
+                else:
+                    raise TypeError("Falsche Farbe")
+            #rook
+            case e_move_type.rook_file_rank | e_move_type.rook_file_rank_check | e_move_type.rook_file_rank_check_mate | e_move_type.rook_schlagen_file_rank | e_move_type.rook_schlagen_file_rank_check | e_move_type.rook_schlagen_file_rank_check_mate:
+                if farbe == e_chess_color.black:
+                    if self.b_rook1.laufen_possible():
+                        count += 1
+                    if self.b_rook2.laufen_possible():
+                        count += 1
+                elif farbe == e_chess_color.white:
+                    if self.w_rook1.laufen_possible():
+                        count += 1
+                    if self.w_rook2.laufen_possible():
+                        count += 1
+                else:
+                    raise TypeError("Falsche Farbe")
+            #queen
+            case e_move_type.queen_file_rank | e_move_type.queen_file_rank_check | e_move_type.queen_file_rank_check_mate | e_move_type.queen_schlagen_file_rank | e_move_type.queen_schlagen_file_rank_check | e_move_type.queen_schlagen_file_rank_check_mate:
+                return 1
+            #king
+            case e_move_type.king_file_rank | e_move_type.king_file_rank_check | e_move_type.king_file_rank_check_mate | e_move_type.king_schlagen_file_rank | e_move_type.king_schlagen_file_rank_check | e_move_type.king_schlagen_file_rank_check_mate:
+                return 1
 
-
-
-
+    def is_check(self, new_position: c_position, piece_type: e_chess_typ) -> bool:
+        
 
 
 
